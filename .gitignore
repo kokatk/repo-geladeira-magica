@@ -13,11 +13,6 @@ target/
 .springBeans
 .sts4-cache
 
-### IntelliJ IDEA ###
-.idea
-*.iws
-*.iml
-*.ipr
 
 ### NetBeans ###
 /nbproject/private/
@@ -31,3 +26,59 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# === Java & Maven ===
+target/
+*.class
+*.jar
+*.war
+*.ear
+
+# === VS Code ===
+.vscode/
+
+# === IntelliJ IDEA (caso alguém use) ===
+.idea/
+*.iml
+*.iws
+out/
+*.iws
+*.ipr
+
+
+# === Eclipse ===
+.project
+.classpath
+.settings/
+bin/
+
+# === Arquivos sensíveis e de configuração ===
+# Arquivos de ambiente com API keys e senhas
+*.env
+*.env.*
+.env.local
+.env.*.local
+
+# Arquivos de configuração com dados sensíveis
+application.properties
+application.yml
+
+# Sugestão: manter arquivos de exemplo para uso do time
+!application-example.properties
+!application-example.yml
+
+# === Banco de Dados H2 (modo file) ===
+*.mv.db
+*.h2.db
+
+# === Logs ===
+*.log
+
+# === Sistema operacional ===
+.DS_Store        # macOS
+Thumbs.db        # Windows
+
+# === Arquivos temporários e backups ===
+*.tmp
+*.bak
+*.swp
