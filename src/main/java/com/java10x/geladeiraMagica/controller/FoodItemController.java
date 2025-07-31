@@ -1,62 +1,65 @@
 package com.java10x.geladeiraMagica.controller;
 
-import org.apache.catalina.connector.Response;
+import java.util.List;
+import java.util.Optional;
+
+
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.java10x.geladeiraMagica.model.FoodItem;
-import com.java10x.geladeiraMagica.repository.FoodItemRepository;
 import com.java10x.geladeiraMagica.service.FoodItemService;
 
 @RestController
 public class FoodItemController {
 
-    private final FoodItemService foodItemService;
-    private final FoodItemRepository foodItemRepository;
-    
+    private FoodItemService service;
 
-    public FoodItemController(FoodItemService foodItemService, FoodItemRepository foodItemRepository) {
-        this.foodItemService = foodItemService;
-        this.foodItemRepository = foodItemRepository;
-    }
 
-    //LISTAR TODOS OS ITENS
-    public ResponseEntity<?> listarTodos() {
-        return ResponseEntity.ok(foodItemRepository.findAll());
-    }
 
     //ADICIONAR UM ITEM
-    public ResponseEntity<?> adicionarItem(FoodItem foodItem) {
-        foodItemRepository.save(foodItem);
-        return ResponseEntity.ok("Item adicionado com sucesso!");
-    }
-
-    //REMOVER UM ITEM
-    public ResponseEntity<?> removerItem(Long id) {
-        if (foodItemRepository.existsById(id)) {
-            foodItemRepository.deleteById(id);
-            return ResponseEntity.ok("Item removido com sucesso!");
-        } else {
-            return ResponseEntity.status(Response.SC_NOT_FOUND).body("Item não encontrado!");
-        }
+    @PostMapping("/cadastrar")
+    public ResponseEntity<?> cadastrarItem(@RequestBody FoodItem foodItem) {
+        FoodItem salvo = service.cadastrar(foodItem);
+        return ResponseEntity.ok().body(salvo);
     }
 
     //ATUALIZAR UM ITEM
-    public ResponseEntity<?> atualizarItem(Long id, FoodItem foodItem) {
-        if (foodItemRepository.existsById(id)) {
-            foodItem.setId(id);
-            foodItemRepository.save(foodItem);
-            return ResponseEntity.ok("Item atualizado com sucesso!");
-        } else {
-            return ResponseEntity.status(Response.SC_NOT_FOUND).body("Item não encontrado!");
-        }
+    @PostMapping("atualizar/{id}")
+    public ResponseEntity<FoodItem> atualizar(@PathVariable Long id, @RequestBody FoodItem foodItem) {
+        return service.listarPorId(id)
+        .map(itemExistente -> {
+            foodItem.setId(itemExistente.getId());
+            FoodItem atulizado = service.atualizar(foodItem);
+            return ResponseEntity.ok(atulizado);
+        })
+        .orElse(ResponseEntity.notFound().build());
     }
-    
-    //BUSCAR UM ITEM POR ID
-    public ResponseEntity<?> buscarItemPorId(Long id) {
-        return foodItemRepository.findById(id)
-                .map(item -> ResponseEntity.ok(item))
-                .orElse(ResponseEntity.status(Response.SC_NOT_FOUND).body("Item não encontrado!"));
+
+       //LISTAR TODOS OS ITENS
+    @GetMapping("/listar")
+    public ResponseEntity<List<FoodItem>> listarTodos() {
+        List<FoodItem> food = service.listarTodos();
+        return ResponseEntity.ok(food);
     }
-    
+
+      //BUSCAR UM ITEM POR ID
+    @GetMapping("/listar/{id}")
+    public ResponseEntity<Optional<FoodItem>> buscarItemPorId(@PathVariable Long id) {
+        Optional<FoodItem> food = service.listarPorId(id);
+        return ResponseEntity.ok(food);
+    }
+
+
+        //REMOVER UM ITEM
+    @DeleteMapping("/deletar/{id}")
+    public ResponseEntity<Void> deletarItem(@PathVariable Long id) {
+        service.deletar(id);
+        return ResponseEntity.noContent().build();
+    }
 }
