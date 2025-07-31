@@ -2,7 +2,6 @@ package com.java10x.geladeiraMagica.model;
 
 import java.time.LocalDate;
 
-import jakarta.annotation.Generated;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
