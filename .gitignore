@@ -58,6 +58,7 @@ bin/
 *.env.*
 .env.local
 .env.*.local
+/data/
 
 # Arquivos de configuração com dados sensíveis
 application.properties

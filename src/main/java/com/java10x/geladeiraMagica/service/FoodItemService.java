@@ -4,14 +4,16 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.java10x.geladeiraMagica.model.FoodItem;
 import com.java10x.geladeiraMagica.repository.FoodItemRepository;
 
 @Service
+@RequestMapping("/food")
 public class FoodItemService {
 
-    private FoodItemRepository repository;
+    private final FoodItemRepository repository;
 
     public FoodItemService(FoodItemRepository repository) {
         this.repository = repository;
@@ -39,4 +41,4 @@ public class FoodItemService {
 
     
 
-}   
+}
