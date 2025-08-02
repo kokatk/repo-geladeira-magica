@@ -56,6 +56,7 @@ bin/
 # === Arquivos sensíveis e de configuração ===
 # Arquivos de ambiente com API keys e senhas
 *.env
+src/.env
 *.env.*
 .env.local
 .env.*.local
