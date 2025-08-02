@@ -36,6 +36,7 @@ target/
 
 # === VS Code ===
 .vscode/
+/repo-backup/
 
 # === IntelliJ IDEA (caso alguém use) ===
 .idea/
@@ -83,3 +84,14 @@ Thumbs.db        # Windows
 *.tmp
 *.bak
 *.swp
+
+
+*.key
+*.pem
+*.p12
+*.jks
+*.keystore
+*.truststore
+secrets/
+credentials/
+*.secret
