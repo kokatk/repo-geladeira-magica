@@ -1,5 +1,5 @@
 // Configuração da API
-const API_BASE_URL = 'http://localhost:8080';
+const API_BASE_URL = window.location.origin;
 
 // Elementos do DOM
 const addItemForm = document.getElementById('addItemForm');

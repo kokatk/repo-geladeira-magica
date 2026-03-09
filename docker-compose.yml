@@ -3,6 +3,11 @@ services:
     image: postgres:15
     container_name: postgres_geladeira
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
     environment:
       - POSTGRES_DB=geladeira
       - POSTGRES_USER=geladeira
@@ -18,6 +23,11 @@ services:
     image: redis:7
     container_name: redis_geladeira
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
     volumes:
       - /DATA/AppData/geladeira-devops/redis:/data
     ports:
@@ -70,8 +80,10 @@ services:
       - SPRING_DATA_REDIS_HOST=redis
       - SPRING_DATA_REDIS_PORT=6379
     depends_on:
-      - postgres
-      - redis
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     ports:
       - "192.168.3.3:8085:8080"
     restart: unless-stopped
