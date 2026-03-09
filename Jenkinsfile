@@ -16,6 +16,30 @@ pipeline {
                 git 'https://github.com/kokatk/repo-geladeira-magica.git'
             }
         }
+        stage('Prepare ZimaOS JAR') {
+            steps {
+                sh '''
+                  set -e
+                  JAR_SOURCE=$(ls -1 target/*-SNAPSHOT.jar | head -n1)
+                  docker run --rm \
+                    -v /DATA/AppData/geladeira-devops/app:/app \
+                    -v "$PWD/target":/target \
+                    alpine:3.20 sh -c 'cp /target/*.jar /app/app.jar && ls -l /app/app.jar'
+                '''
+            }
+        }
+        stage('Compose Up ZimaOS') {
+            steps {
+                sh '''
+                  set -e
+                  docker run --rm \
+                    -v /var/run/docker.sock:/var/run/docker.sock \
+                    -v "$PWD":/workspace -w /workspace \
+                    docker/compose:2.32.4 \
+                    -f docker-compose.zimaos.yml up -d
+                '''
+            }
+        }
         stage('Env Check') {
             steps {
                 sh '''
@@ -56,6 +80,22 @@ pipeline {
                   OPENAI_FLAG=""
                   if [ -n "$OPENAI_API_KEY" ]; then OPENAI_FLAG="-e OPENAI_API_KEY=$OPENAI_API_KEY"; fi
                   docker run -d --name $CONTAINER_NAME -p $PORT:8080 $OPENAI_FLAG $IMAGE_NAME
+                '''
+            }
+        }
+        stage('Smoke Test') {
+            steps {
+                sh '''
+                  set -e
+                  for i in $(seq 1 30); do
+                    if curl -fsS http://192.168.3.3:8085/food/listar >/dev/null 2>&1; then
+                      echo "API OK"
+                      exit 0
+                    fi
+                    sleep 2
+                  done
+                  curl -v http://192.168.3.3:8085/food/listar
+                  exit 1
                 '''
             }
         }
