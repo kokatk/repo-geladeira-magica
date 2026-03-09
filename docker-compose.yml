@@ -1,0 +1,22 @@
+services:
+  geladeira-magica:
+    container_name: geladeira-magica
+    build:
+      context: .
+      dockerfile: Dockerfile.mvn
+    image: geladeira-magica:latest
+    environment:
+      - TZ=America/Sao_Paulo
+      - JAVA_OPTS=-Xms256m -Xmx512m
+      - API_URL=https://api.openai.com/v1/chat/completions
+      - API_KEY=change-me
+      - OPENAI_API_KEY=change-me
+    ports:
+      - "192.168.3.3:38080:8080"
+    restart: unless-stopped
+    networks:
+      - homelab
+
+networks:
+  homelab:
+    driver: bridge

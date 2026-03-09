@@ -1,0 +1,96 @@
+HELP.md
+target/
+.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+
+# === Java & Maven ===
+target/
+*.class
+*.jar
+*.war
+*.ear
+
+# === VS Code ===
+.vscode/
+/repo-backup/
+
+# === IntelliJ IDEA (caso alguém use) ===
+.idea/
+*.iml
+*.iws
+out/
+*.iws
+*.ipr
+
+
+# === Eclipse ===
+.project
+.classpath
+.settings/
+bin/
+
+# === Arquivos sensíveis e de configuração ===
+# Arquivos de ambiente com API keys e senhas
+*.env
+src/.env
+*.env.*
+.env.local
+.env.*.local
+# Arquivos de configuração com dados sensíveis (comentado para manter application.properties)
+# application.properties
+# application.yml
+
+# Sugestão: manter arquivos de exemplo para uso do time
+!application-example.properties
+!application-example.yml
+
+# === Banco de Dados H2 (modo file) - Comentado para persistir dados ===
+# *.mv.db
+# *.h2.db
+
+# === Logs ===
+*.log
+
+# === Sistema operacional ===
+.DS_Store        # macOS
+Thumbs.db        # Windows
+
+# === Arquivos temporários e backups ===
+*.tmp
+*.bak
+*.swp
+
+
+*.key
+*.pem
+*.p12
+*.jks
+*.keystore
+*.truststore
+secrets/
+credentials/
+*.secret

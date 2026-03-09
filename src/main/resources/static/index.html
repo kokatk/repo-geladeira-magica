@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geladeira Mágica</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-magic"></i> Geladeira Mágica</h1>
+            <p>Gerencie seus ingredientes e gere receitas incríveis com IA!</p>
+        </header>
+
+        <main>
+            <!-- Seção de Adicionar Item -->
+            <section class="card">
+                <h2><i class="fas fa-plus-circle"></i> Adicionar Item</h2>
+                <form id="addItemForm">
+                    <div class="form-group">
+                        <label for="nome">Nome do Item:</label>
+                        <input type="text" id="nome" name="nome" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="categoria">Categoria:</label>
+                        <select id="categoria" name="categoria" required>
+                            <option value="">Selecione uma categoria</option>
+                            <option value="Proteína">Proteína</option>
+                            <option value="Vegetais">Vegetais</option>
+                            <option value="Frutas">Frutas</option>
+                            <option value="Laticínios">Laticínios</option>
+                            <option value="Grãos">Grãos</option>
+                            <option value="Temperos">Temperos</option>
+                            <option value="Outros">Outros</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="quantidade">Quantidade:</label>
+                        <input type="number" id="quantidade" name="quantidade" min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="dataValidade">Data de Validade:</label>
+                        <input type="date" id="dataValidade" name="dataValidade" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Adicionar Item
+                    </button>
+                </form>
+            </section>
+
+            <!-- Seção de Itens da Geladeira -->
+            <section class="card">
+                <h2><i class="fas fa-list"></i> Itens na Geladeira</h2>
+                <div class="actions">
+                    <button id="refreshItems" class="btn btn-secondary">
+                        <i class="fas fa-sync-alt"></i> Atualizar Lista
+                    </button>
+                </div>
+                <div id="itemsList" class="items-grid">
+                    <!-- Itens serão carregados aqui -->
+                </div>
+            </section>
+
+            <!-- Seção de Geração de Receitas -->
+            <section class="card">
+                <h2><i class="fas fa-utensils"></i> Gerar Receitas</h2>
+                <div class="recipe-options">
+                    <button id="generateFromFridge" class="btn btn-success">
+                        <i class="fas fa-magic"></i> Receita com Ingredientes da Geladeira
+                    </button>
+                    <div class="manual-recipe">
+                        <h3>Ou adicione ingredientes manualmente:</h3>
+                        <div class="form-group">
+                            <input type="text" id="manualIngredients" placeholder="Digite ingredientes separados por vírgula (ex: frango, batata, cebola)">
+                            <button id="generateManual" class="btn btn-info">
+                                <i class="fas fa-wand-magic-sparkles"></i> Gerar Receita Manual
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div id="recipeResult" class="recipe-result">
+                    <!-- Receita será exibida aqui -->
+                </div>
+            </section>
+        </main>
+
+        <!-- Modal de Edição -->
+        <div id="editModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2><i class="fas fa-edit"></i> Editar Item</h2>
+                <form id="editItemForm">
+                    <input type="hidden" id="editId">
+                    <div class="form-group">
+                        <label for="editNome">Nome do Item:</label>
+                        <input type="text" id="editNome" name="nome" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editCategoria">Categoria:</label>
+                        <select id="editCategoria" name="categoria" required>
+                            <option value="Proteína">Proteína</option>
+                            <option value="Vegetais">Vegetais</option>
+                            <option value="Frutas">Frutas</option>
+                            <option value="Laticínios">Laticínios</option>
+                            <option value="Grãos">Grãos</option>
+                            <option value="Temperos">Temperos</option>
+                            <option value="Outros">Outros</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="editQuantidade">Quantidade:</label>
+                        <input type="number" id="editQuantidade" name="quantidade" min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editDataValidade">Data de Validade:</label>
+                        <input type="date" id="editDataValidade" name="dataValidade" required>
+                    </div>
+                    <div class="modal-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Salvar Alterações
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="closeModal()">
+                            <i class="fas fa-times"></i> Cancelar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Loading Spinner -->
+        <div id="loadingSpinner" class="loading-spinner">
+            <i class="fas fa-spinner fa-spin"></i>
+            <p>Carregando...</p>
+        </div>
+
+        <!-- Toast Notifications -->
+        <div id="toast" class="toast"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
